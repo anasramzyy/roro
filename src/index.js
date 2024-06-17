@@ -37,35 +37,35 @@ app.get('/signup', (req, res) => {
   res.render('signup')
 })
 
-app.get('/scan', (req, res)=> {
-  res.render('scanner')
-})
+// app.get('/scan', (req, res)=> {
+//   res.render('scanner')
+// })
 
-//Patient History
-app.get("/history", async (req, res) => {
-  const user = await collection.findOne({ id: req.id.user_id });
-  const history = user.history; // Modify this depending on the key name
+// //Patient History
+// app.get("/history", async (req, res) => {
+//   const user = await collection.findOne({ id: req.id.user_id });
+//   const history = user.history; // Modify this depending on the key name
 
-  // Render whatever view you have to view in the next page
-});
-
-
-// Logout & Add session destroying
-app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.redirect("/login");
-    }
-  });
-});
+//   // Render whatever view you have to view in the next page
+// });
 
 
-app.post("/history", async (req, res) => {
+// // Logout & Add session destroying
+// app.get("/logout", (req, res) => {
+//   req.session.destroy((err) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.redirect("/login");
+//     }
+//   });
+// });
 
-  const data = {}; // frontend data
-});
+
+// app.post("/history", async (req, res) => {
+
+//   const data = {}; // frontend data
+// });
 
 
 app.post('/signup', async (req, res) => {
@@ -108,27 +108,27 @@ app.post('/login', async (req, res) => {
 }) 
 
 
-app.post('/scan', upload.single('file'), async (req, res) => {
+// app.post('/scan', upload.single('file'), async (req, res) => {
   
-  //the ai model
-  const model = await tf.loadLayersModel('https://fastapi-lung-cancer.onrender.com/docs#/default/predict_image_predict_post');
-  try {
-    // Preprocess the image
-    const image = await sharp(req.file.buffer)
-      .resize(224, 224)
-      .toBuffer();
-    const tensor = tf.tensor3d(image, [1, 224, 224, 3]);
+//   //the ai model
+//   const model = await tf.loadLayersModel('https://fastapi-lung-cancer.onrender.com/docs#/default/predict_image_predict_post');
+//   try {
+//     // Preprocess the image
+//     const image = await sharp(req.file.buffer)
+//       .resize(224, 224)
+//       .toBuffer();
+//     const tensor = tf.tensor3d(image, [1, 224, 224, 3]);
 
-    // Make predictions using the model
-    const predictions = model.predict(tensor);
-    const prediction = predictions.dataSync()[0];
+//     // Make predictions using the model
+//     const predictions = model.predict(tensor);
+//     const prediction = predictions.dataSync()[0];
 
-    // Return the prediction result
-    res.json({ prediction: prediction > 0.5? 'included_with_diseases' : 'normal' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+//     // Return the prediction result
+//     res.json({ prediction: prediction > 0.5? 'included_with_diseases' : 'normal' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Server error' });
+//   }
+// });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
