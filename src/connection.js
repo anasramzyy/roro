@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-mongoose.connect('mongodb://localhost:27017')
+mongoose.connect('mongodb+srv://anasramzy00:9i2dsmBjqmFdUZYI@cluster0.usenaxw.mongodb.net/project')
 .then(() => {
   console.log("mongodb connected")
 })
@@ -18,15 +18,6 @@ const loginSchema = new mongoose.Schema({
     required: true
   }
 })
-
-const pictureSchema = new mongoose.Schema({
-  picture: Buffer,
-  sentAt: { type: Date, default: Date.now },
-  result: {
-    type: String,
-    enum: ['normal', 'included_with_diseases']
-  }
-}, { timestamps: true });
 
 const collection = new mongoose.model("users", loginSchema)
 
